@@ -1,13 +1,15 @@
 <template>
 	<li class="treeview">
 		<a href="#" :title="item.name">{{item.name}}</a>
-		<tree :list="item.children" :isSearch="isSearch"></tree>
+		<ul class="menu-content" v-if="isChildren">
+			<treeItem v-for="(citem,index) in item.children" :keys="index" :item="citem"></treeItem>
+		</ul>
 	</li>
 </template>
 
 <script>
-	import tree from './tree'
 	export default {
+		name:'treeItem',
 		props:{
 			item:{
 				type:Object,
@@ -19,11 +21,13 @@
 		},
 		data(){
 			return{
-				isSearch:false
+				isSearch:false,
 			}
 		},
-		components:{
-			tree
+		computed:{
+			isChildren(){
+				return this.item.children && this.item.children.length
+			}
 		}
 	}
 </script>
