@@ -2,11 +2,12 @@
 	<ul class="sidebar-menu" id="mainFormTree">
 		<li class="treeview menu-toggle-center" id="menu-toggle" v-if="isSearch">
 			<div class="input-group" id="menu-search-box">
-				<input type="text" placeholder="搜索" class="form-control" id="menu-search-box" v-model="searchKeyWord">
-				<span input-group-btn><button @click="searchMenuBar">搜索</button></span>
+				<input type="text" placeholder="搜索" class="form-control" id="menu-search" v-model="searchKeyWord">
+				<span input-group-btn><button class="menu-search-btn btn btn-flat" @click="searchMenuBar"><i class="fa fa-search"></i></button></span>
 			</div>
+			<a><i id="menu-toggle-arrow" class="fa fa-arrow-cicle-left"></i></a>
 		</li>
-		<treeItem v-for="(item,index) in list" :keys="index" :item="item"></treeItem>	
+		<treeItem v-for="(item,index) in list" :keys="index" :item="item" :trees="list"></treeItem>	
 	</ul>
 </template>
 
@@ -34,11 +35,14 @@
 				console.log(this.searchKeyWord)
 			}
 		},
-		computed:{
-			
-		},
 		components:{
 			treeItem
 		}
 	}
 </script>
+
+<style>
+	.sidebar-menu{
+		width: 230px;
+	}
+</style>

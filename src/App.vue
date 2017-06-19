@@ -1,12 +1,12 @@
 <template>
-  <div id="app">
+  <div id="app" class="skin-win10">
     <tree :isSearch="isSearch" :list="list"></tree>
   </div>
 </template>
 
 <script>
 import tree from './components/tree'
-import util from './common/util'
+import util from './common/js/util'
 export default {
   name: 'app',
   components: {
