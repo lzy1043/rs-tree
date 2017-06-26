@@ -1,11 +1,11 @@
 <template>
   <div id="app" class="skin-win10">
-    <tree :isSearch="isSearch" :list="list"></tree>
+    <tree :isSearch="isSearch" :list="list" :jump="jump"></tree>
   </div>
 </template>
 
 <script>
-import tree from './components/tree'
+import tree from './components/tree/tree'
 import util from './common/js/util'
 export default {
   name: 'app',
@@ -23,6 +23,13 @@ export default {
     return {
       isSearch:true,
       list:[]
+    }
+  },
+  methods:{
+    jump(data){
+      if(!data){
+        console.log('页面跳转')
+      }
     }
   }
 }

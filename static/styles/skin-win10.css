@@ -221,6 +221,7 @@
   display: inline-block;
   width: 100%;
   color: #297ACC;
+  box-sizing: border-box;
 }
 
 .skin-win10 .sidebar-menu .treeview-menu .treeview-menu {

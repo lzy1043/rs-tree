@@ -7,7 +7,7 @@
 			</div>
 			<a><i id="menu-toggle-arrow" class="fa fa-arrow-cicle-left"></i></a>
 		</li>
-		<treeItem v-for="(item,index) in list" :keys="index" :item="item" :trees="list"></treeItem>	
+		<treeItem v-for="(item,index) in list" :keys="index" :item="item" :trees="list" :jump="jump"></treeItem>	
 	</ul>
 </template>
 
@@ -21,7 +21,12 @@
 			},
 			list:{
 				type:Array,
-				default:[]
+				default(){
+					return [];
+				}
+			},
+			jump:{
+				type:Function
 			}
 		},
 		data(){
@@ -33,6 +38,12 @@
 		methods:{
 			searchMenuBar(){
 				console.log(this.searchKeyWord)
+			},
+			handleNodeExpand(nodeData, node, instance) {
+				console.log(nodeData);
+				console.log(node);
+				console.log(instance)
+				this.$emit('node-expand', node);
 			}
 		},
 		components:{
