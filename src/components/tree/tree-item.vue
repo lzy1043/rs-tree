@@ -1,21 +1,23 @@
 <template>
 	<li class="treeview" :class="{'active':item.isExpend}" @click.stop="expend(item)">
-		<a href="#" :data-title="item.name" :class="{'navnode':!item.children}" @click="tempJump(item.children)">
+		<a href="#" :data-title="item.name" :class="{'navnode':!item.children}" @click="tempJump(item)">
 			<i :class="item.icon"></i>
 			<span class="tree-view-text">{{item.name}}</span>
 			<span class="pull-right-container">
 				<i class="fa pull-right" :class="{'fa-angle-left':!item.isExpend && item.children,'fa-angle-down':item.isExpend && item.children}"></i>
 			</span>
 		</a>
-		<transition name="fade">
+		<collapse-transition>
 			<ul class="treeview-menu" v-if="isChildren" v-show="item.isExpend" >
 				<treeItem v-for="(citem,index) in tempItem.children" :keys="index" :item="citem" :trees="tempItem.children" :jump="tempJump"></treeItem>
 			</ul>
-		</transition>
+		</collapse-transition>
 	</li>
+	
 </template>
 
 <script>
+	import collapseTransition from '@/transition/collapse-transition'
 	export default {
 		name:'treeItem',
 		props:{
@@ -30,7 +32,10 @@
 				}
 			},
 			jump:{
-				type:Function
+				type:Function,
+				default:function(){
+					
+				}
 			}
 		},
 		created(){
@@ -67,6 +72,14 @@
 				}
 				getClickNode(this.treeData);
 			}
+		},
+		components:{
+			collapseTransition
 		}
 	}
 </script>
+<style>
+	.collapse-transition {
+	    transition: 1s height ease-in-out, 1s padding-top ease-in-out, 1s padding-bottom ease-in-out;
+	}
+</style>

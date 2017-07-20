@@ -3,16 +3,16 @@
 		<li class="treeview menu-toggle-center" id="menu-toggle" v-if="isSearch">
 			<div class="input-group" id="menu-search-box">
 				<input type="text" placeholder="搜索" class="form-control" id="menu-search" v-model="searchKeyWord">
-				<span input-group-btn><button class="menu-search-btn btn btn-flat" @click="searchMenuBar"><i class="fa fa-search"></i></button></span>
+				<span class="input-group-btn"><button id="menu-search-btn" class="btn btn-flat" @click="searchMenuBar"><i class="fa fa-search"></i></button></span>
 			</div>
-			<a><i id="menu-toggle-arrow" class="fa fa-arrow-cicle-left"></i></a>
+			<a><i id="menu-toggle-arrow" class="fa fa-arrow-circle-left"></i></a>
 		</li>
 		<treeItem v-for="(item,index) in list" :keys="index" :item="item" :trees="list" :jump="jump"></treeItem>	
 	</ul>
 </template>
 
 <script>
-	import treeItem from './tree-item'
+	import treeItem from './tree-item';
 	export default {
 		props:{
 			isSearch:{
@@ -51,9 +51,3 @@
 		}
 	}
 </script>
-
-<style>
-	.sidebar-menu{
-		width: 230px;
-	}
-</style>
