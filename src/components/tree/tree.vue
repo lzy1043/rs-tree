@@ -1,53 +1,37 @@
 <template>
-	<ul class="sidebar-menu" id="mainFormTree">
-		<li class="treeview menu-toggle-center" id="menu-toggle" v-if="isSearch">
-			<div class="input-group" id="menu-search-box">
-				<input type="text" placeholder="搜索" class="form-control" id="menu-search" v-model="searchKeyWord">
-				<span class="input-group-btn"><button id="menu-search-btn" class="btn btn-flat" @click="searchMenuBar"><i class="fa fa-search"></i></button></span>
-			</div>
-			<a><i id="menu-toggle-arrow" class="fa fa-arrow-circle-left"></i></a>
-		</li>
-		<treeItem v-for="(item,index) in list" :keys="index" :item="item" :trees="list" :jump="jump"></treeItem>	
-	</ul>
+  <div class="rs-tree">
+    <treeItem :trees="list" :jump="jump" v-if="list.length" isExpend></treeItem>
+    <div class="rs-tree-empty" v-if="!list.length">
+        暂无数据
+      </div>
+  </div>
 </template>
 
 <script>
-	import treeItem from './tree-item';
-	export default {
-		props:{
-			isSearch:{
-				type:Boolean,
-				default:true
-			},
-			list:{
-				type:Array,
-				default(){
-					return [];
-				}
-			},
-			jump:{
-				type:Function
-			}
-		},
-		data(){
-			return{
-				searchKeyWord:'',
-				tempList:{}
-			}
-		},
-		methods:{
-			searchMenuBar(){
-				console.log(this.searchKeyWord)
-			},
-			handleNodeExpand(nodeData, node, instance) {
-				console.log(nodeData);
-				console.log(node);
-				console.log(instance)
-				this.$emit('node-expand', node);
-			}
-		},
-		components:{
-			treeItem
-		}
-	}
+import treeItem from './tree-item'
+export default {
+  props: {
+    isSearch: {
+      type: Boolean,
+      default: true
+    },
+    list: {
+      type: Array,
+      default () {
+        return {}
+      }
+    },
+    jump: {
+      type: Function
+    }
+  },
+  data () {
+    return {
+      searchKeyWord: ''
+    }
+  },
+  components: {
+    treeItem
+  }
+}
 </script>
