@@ -1,12 +1,13 @@
 <template>
   <collapse-transition>
-    <ul v-show="isExpend">
-      <li v-for="item in trees" class="treeview" :class="{'active':item.isExpend}" @click.stop="expend(item)">
-        <a href="javascript:void(0)" :data-title="item.name" :class="{'navnode':!item.children}">
-          <i :class="item.icon"></i>
-          <span class="tree-view-text">{{item.name}}</span>
-        </a>
-        <treeItem :trees="item.children" :isExpend="item.isExpend"></treeItem>
+    <ul v-show="isExpand" class="list-unstyled">
+      <li>
+        <span :class="{'navnode':!data.children}">
+          <i class="glyphicon glyphicon-menu-right" :class="{'glyphicon-menu-down': data.isExpand}" @click="handleExpand"></i>
+          <input type="checkbox" :name="data.name" v-if="checkbox" @click="handleCheck">
+        </span>
+        <span class="tree-view-text" v-html="data.name" @click="handleClick"></span>
+        <treeItem v-for="(item,index) in data.children" :data="item" :isExpand="data.isExpand"></treeItem>
       </li>
     </ul>
   </collapse-transition>
@@ -14,46 +15,41 @@
       
 <script>
   import collapseTransition from '@/transition/collapse-transition'
+  import { bus } from '@/util/bus.js'
   export default {
     name: 'treeItem',
     props: {
-      trees: {
-        type: Array,
+      data: {
+        type: Object,
         default () {
           return []
         }
       },
-      isExpend: {
+      isExpand: {
+        type: Boolean,
+        default: false
+      },
+      checkbox: {
         type: Boolean,
         default: false
       }
     },
-    created () {
-
-    },
     data () {
       return {
-        active: false,
-        treeData: JSON.parse(JSON.stringify(this.trees))
-      }
-    },
-    computed: {
-      isChildren () {
-        return this.item.children && this.item.children.length
+        active: false
       }
     },
     methods: {
-      expend (item) {
-        var getClickNode = function (data) {
-          data.forEach((treeItem, index) => {
-            if (treeItem.id === item.id) {
-              item.isExpend = !item.isExpend
-            } else {
-              treeItem.isExpend = false
-            }
-          })
+      handleExpand () {
+        this.$set(this.data, 'isExpand', !this.data.isExpand)
+        if (this.data.isExpand) {
+          bus.$emit('node-expand', this.data)
+        } else {
+          bus.$emit('node-collapse', this.data)
         }
-        getClickNode(this.treeData)
+      },
+      handleClick () {
+        bus.$emit('node-click', this.data)
       }
     },
     components: {
@@ -61,8 +57,15 @@
     }
   }
 </script>
-<style>
+<style lang="Sass">
   .collapse-transition {
-      transition: 1s height ease-in-out, 1s padding-top ease-in-out, 1s padding-bottom ease-in-out;
+    transition: 0.5s height ease-in-out, 0.5s padding-top ease-in-out, 0.5s padding-bottom ease-in-out;
   }
+  .list-unstyled{
+    padding-left: 20px;
+  }
+  .tree-view-text{
+    cursor: pointer;
+  }
+
 </style>
